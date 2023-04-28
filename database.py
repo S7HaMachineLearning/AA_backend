@@ -1,6 +1,7 @@
 import sqlite3
 import models
 
+
 class DatabaseConnector:
     databaseName = ""
 
@@ -10,7 +11,7 @@ class DatabaseConnector:
     # Get sensor data from database
     def getSensors(self) -> list[models.Sensor]:
         try:
-            
+
             # Get all sensors
             rows = self.__executeFetchall("SELECT * FROM sensors WHERE deleted = 0")
 
@@ -30,13 +31,12 @@ class DatabaseConnector:
                 ret.append(sensor)
 
             return ret
-        except Exception as e:        
+        except Exception as e:
             print(e)
             return []
-        
-        
+
     # Open local database and get data
-    def __executeFetchall(self,query:str):
+    def __executeFetchall(self, query: str):
         con = sqlite3.connect(self.databaseName)
         cur = con.cursor()
         res = cur.execute(query)
