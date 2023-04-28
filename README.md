@@ -1,15 +1,26 @@
 # AA_backend
 
-## Dependencies
-`pip install fastapi "uvicorn[standard]"`
+Dependencies
+```
+$ pip install fastapi "uvicorn[standard]"
+```
 
-## Run the server
-`python -m uvicorn main:app`
+Run the server
+```
+$ python -m uvicorn main:app
+```
 
-## Run local server, but accessible over network
-`python -m uvicorn main:app --host 0.0.0.0 --port 8000`
+Run local server, but accessible over network
+```
+$ python -m uvicorn main:app --host 0.0.0.0 --port 8000
+```
 
+## Testing
 
+To test all the existing tests, run the following command in the root directory of the project
+```
+$ python -m unittest discover -s tests/ -p "*_test.py"
+```
 
 ## Database
 
