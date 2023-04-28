@@ -4,7 +4,7 @@ from database import DatabaseConnector
 import models
 
 # Create database connector for local DB
-databaseConnector = DatabaseConnector("test.db")
+databaseConnector = DatabaseConnector("database.db")
 
 app = FastAPI()
 app.add_middleware(
