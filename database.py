@@ -1,19 +1,22 @@
+"""Database service"""
 import sqlite3
 import models
 
 
 class DatabaseConnector:
-    databaseName = ""
+    """Database connector class"""
+    database_name = ""
 
-    def __init__(self, databaseName):
-        self.databaseName = databaseName
+    def __init__(self, database_name):
+        self.database_name = database_name
 
     # Get sensor data from database
     def get_sensors(self) -> list[models.Sensor]:
+        """Get list of all sensors from database."""
         try:
 
             # Get all sensors
-            rows = self.__executeFetchall("SELECT * FROM sensors WHERE deleted = 0")
+            rows = self.execute_fetch_all("SELECT * FROM sensors WHERE deleted = 0")
 
             # Create return list
             ret = []
@@ -31,13 +34,14 @@ class DatabaseConnector:
                 ret.append(sensor)
 
             return ret
-        except Exception as e:
-            print(e)
+        except sqlite3.Error as err:
+            print(err)
             return []
 
     # Open local database and get data
-    def __executeFetchall(self, query: str):
-        con = sqlite3.connect(self.databaseName)
+    def execute_fetch_all(self, query: str):
+        """Execute query and return all rows."""
+        con = sqlite3.connect(self.database_name)
         cur = con.cursor()
         res = cur.execute(query)
         rows = res.fetchall()
