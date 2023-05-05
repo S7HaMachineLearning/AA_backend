@@ -1,3 +1,4 @@
+"""Main file for the API. Contains all endpoints and the main function."""
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import DatabaseConnector
@@ -18,12 +19,12 @@ app.add_middleware(
 
 ## API ENDPOINTS ##
 
-# Get list of all sensors from database
 @app.get("/sensors")
-def getSensors() -> dict[str, dict[int, models.Sensor]]:
+def get_sensors() -> dict[str, dict[int, models.Sensor]]:
+    """Get list of all sensors from database."""
 
     # Get sensor from database
-    sensors = databaseConnector.getSensors()
+    sensors = databaseConnector.get_sensors()
 
     # Create Return list
     ret = dict[int, models.Sensor]()

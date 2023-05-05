@@ -6,7 +6,7 @@ class TestDatabaseConnection(unittest.TestCase):
 
     def test_getSensors(self):
         databaseConnector = DatabaseConnector("tests/test.db")
-        sensors = databaseConnector.getSensors()
+        sensors = databaseConnector.get_sensors()
 
         self.assertEqual(len(sensors), 2)
         self.assertEqual(sensors[0].id, 1)

@@ -9,7 +9,7 @@ class DatabaseConnector:
         self.databaseName = databaseName
 
     # Get sensor data from database
-    def getSensors(self) -> list[models.Sensor]:
+    def get_sensors(self) -> list[models.Sensor]:
         try:
 
             # Get all sensors
