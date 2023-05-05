@@ -1,7 +1,7 @@
 """Models for the application."""
 
 from enum import Enum
-from pydantic import BaseModel # pylint: disable=no-name-in-module, import-error
+from pydantic import BaseModel # pylint: disable=no-name-in-module
 
 
 class SensorType(Enum): # pylint: disable=too-few-public-methods

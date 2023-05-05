@@ -1,6 +1,6 @@
 """Main file for the API. Contains all endpoints and the main function."""
-from fastapi import FastAPI # pylint: disable=import-error
-from fastapi.middleware.cors import CORSMiddleware # pylint: disable=import-error
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware 
 from database import DatabaseConnector
 import models
 
