@@ -55,6 +55,14 @@ To test all the existing tests, run the following command in the root directory 
 $ python -m unittest discover -s tests/ -p "*_test.py"
 ```
 
+## Linting
+Linting is important to reduce errors and improve the overall quality of your code.
+
+To lint the project
+```
+$ pylint *.py 
+```
+
 ## Database
 
 ### Sensor table
@@ -63,8 +71,8 @@ CREATE TABLE "sensors" (
 	"id"	INTEGER,
 	"haSensorId"	TEXT NOT NULL,
 	"type"	INTEGER NOT NULL,
-	"createdOn"	INTEGER,
-	"updatedOn"	INTEGER,
+	"createdOn"	TEXT,
+	"updatedOn"	TEXT,
 	"deleted"	INTEGER DEFAULT 0,
 	PRIMARY KEY("id" AUTOINCREMENT)
 );
@@ -76,8 +84,8 @@ CREATE TABLE "automations" (
 	"id"	INTEGER,
 	"value"	TEXT NOT NULL,
 	"type"	INTEGER NOT NULL,
-	"createdOn"	INTEGER,
-	"updatedOn"	INTEGER,
+	"createdOn"	TEXT,
+	"updatedOn"	TEXT,
 	"deleted"	INTEGER DEFAULT 0,
 	PRIMARY KEY("id" AUTOINCREMENT)
 );

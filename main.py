@@ -3,9 +3,11 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import DatabaseConnector
 import models
+from ha_api import HomeAssistantApi
 
 # Create database connector for local DB
 databaseConnector = DatabaseConnector("database.db")
+haApi = HomeAssistantApi()
 
 app = FastAPI()
 app.add_middleware(
@@ -32,3 +34,23 @@ def get_sensors() -> dict[str, dict[int, models.Sensor]]:
         ret[index] = item
 
     return {"sensors": ret}
+
+
+@app.get("/sensors/ha")
+def get_ha_sensors() :
+    """Get list of all sensors from Home Assistant."""
+
+    # Get sensor from HA
+    sensors = haApi.get_states()
+
+    return {"sensors": sensors}
+
+@app.post("/sensors")
+def add_sensor(sensor: models.Sensor):
+    """Add sensor to database."""
+
+    # Add sensor to database
+    sensor = databaseConnector.add_sensor(sensor)
+
+    print(sensor)
+    return {"sensor": sensor}
