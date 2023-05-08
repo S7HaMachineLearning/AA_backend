@@ -3,7 +3,7 @@ import configparser
 import requests
 import models
 
-class HomeAssistantApi:
+class HomeAssistantApi: # pylint: disable=too-few-public-methods
     """Home Assistant API class."""
 
     api_url = ""
