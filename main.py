@@ -23,7 +23,8 @@ app.add_middleware(
 ## API ENDPOINTS ##
 
 @app.get("/sensors", response_model=list[models.Sensor])
-def getShit() -> list[models.Sensor]:
+def get_sensors() -> list[models.Sensor]:
+    """Get list of all sensors from database."""
     objects = databaseConnector.get_sensors()
     return objects
 
@@ -35,13 +36,15 @@ def get_ha_sensors() -> list[models.HaSensor]:
     sensors = haApi.get_states()
     return sensors
 
+
 @app.post("/sensors")
 async def main(request: Request):
     """Add sensor to database."""
     content_type = request.headers.get('Content-Type')
     if content_type is None:
         return 'No Content-Type provided.'
-    elif content_type == 'application/json':
+
+    if content_type == 'application/json':
         try:
             json = await request.json()
             # Parse to NewSensor
@@ -50,10 +53,8 @@ async def main(request: Request):
                 friendlyName=json['friendlyName'],
                 type=json['type']
             )
-            newId = databaseConnector.add_sensor(sensor)
-            return newId
+            return databaseConnector.add_sensor(sensor)
         except JSONDecodeError:
             return 'Invalid JSON data.'
     else:
         return 'Content-Type not supported.'
-    

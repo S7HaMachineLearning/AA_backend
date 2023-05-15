@@ -22,6 +22,7 @@ class Sensor(BaseModel):  # pylint: disable=too-few-public-methods
 
 
 class NewSensor(BaseModel):  # pylint: disable=too-few-public-methods
+    """New sensor model."""
     friendlyName: str
     haSensorId: str
     type: int

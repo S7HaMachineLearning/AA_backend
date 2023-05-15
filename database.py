@@ -43,10 +43,11 @@ class DatabaseConnector:
 
     def add_sensor(self, sensor: models.NewSensor) -> int:
         """Add sensor to database"""
-        newId = 0
+        new_id = 0
         try:
             # Add sensor to database
-            newId = self.execute_insert("INSERT INTO sensors (haSensorId, friendlyName, type, createdOn, updatedOn)" +
+            new_id = self.execute_insert("INSERT INTO sensors (haSensorId, friendlyName," +
+                                        " type, createdOn, updatedOn)" +
                                         " VALUES (?, ?, ?, ?, ?);",
                                         (
                                             sensor.haSensorId,
@@ -58,7 +59,7 @@ class DatabaseConnector:
                                         )
         except sqlite3.Error as err:
             print(err)
-        return newId
+        return new_id
 
     # Open local database and get data
 
