@@ -34,13 +34,13 @@ class HomeAssistantApi: # pylint: disable=too-few-public-methods
             items = []
 
             for entity in json:
-                # Skipp non sensor entities
+                # Skip non sensor entities
                 if not entity["entity_id"].startswith("sensor"):
                     continue
 
                 sensor = models.HaSensor(
-                    entity_id=entity["entity_id"],
-                    friendly_name=entity["attributes"]["friendly_name"],
+                    entityId=entity["entity_id"],
+                    friendlyName=entity["attributes"]["friendly_name"],
                     state=entity["state"]
                 )
                 items.append(sensor)

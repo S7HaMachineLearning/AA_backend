@@ -13,6 +13,7 @@ class SensorType(Enum):  # pylint: disable=too-few-public-methods
 class Sensor(BaseModel):  # pylint: disable=too-few-public-methods
     """Sensor model."""
     id: int
+    friendlyName: str
     haSensorId: str
     type: SensorType
     createdOn: str
@@ -20,8 +21,13 @@ class Sensor(BaseModel):  # pylint: disable=too-few-public-methods
     deleted: int
 
 
+class NewSensor(BaseModel):  # pylint: disable=too-few-public-methods
+    friendlyName: str
+    haSensorId: str
+    type: int
+
 class HaSensor(BaseModel):  # pylint: disable=too-few-public-methods
     """Home assistant sensor model."""
-    entity_id: str
-    friendly_name: str
+    entityId: str
+    friendlyName: str
     state: str

@@ -30,7 +30,8 @@ class DatabaseConnector:
                     type=row[2],
                     createdOn=row[3],
                     updatedOn=row[4],
-                    deleted=row[5]
+                    deleted=row[5],
+                    friendlyName=row[6]
                 )
                 print(sensor)
                 ret.append(sensor)
@@ -40,22 +41,24 @@ class DatabaseConnector:
             print(err)
             return []
 
-    def add_sensor(self, sensor: models.Sensor) -> models.Sensor:
+    def add_sensor(self, sensor: models.NewSensor) -> int:
         """Add sensor to database"""
-
+        newId = 0
         try:
             # Add sensor to database
-            sensor.id = self.execute_insert("INSERT INTO sensors (haSensorId, type, createdOn)" +
-                                            " VALUES (?, ?, ?);",
-                                            (
-                                                sensor.haSensorId,
-                                                sensor.type,
-                                                datetime.now()
-                                            )
-                                            )
+            newId = self.execute_insert("INSERT INTO sensors (haSensorId, friendlyName, type, createdOn, updatedOn)" +
+                                        " VALUES (?, ?, ?, ?, ?);",
+                                        (
+                                            sensor.haSensorId,
+                                            sensor.friendlyName,
+                                            sensor.type,
+                                            datetime.now(),
+                                            datetime.now(),
+                                        )
+                                        )
         except sqlite3.Error as err:
             print(err)
-        return sensor
+        return newId
 
     # Open local database and get data
 
