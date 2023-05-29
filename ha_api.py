@@ -3,7 +3,8 @@ import configparser
 import requests
 import models
 
-class HomeAssistantApi: # pylint: disable=too-few-public-methods
+
+class HomeAssistantApi:  # pylint: disable=too-few-public-methods
     """Home Assistant API class."""
 
     api_url = ""
@@ -27,7 +28,7 @@ class HomeAssistantApi: # pylint: disable=too-few-public-methods
                     "Authorization": "Bearer " + self.api_token,
                     "Content-Type": "application/json"
                 },
-                timeout=5 # seconds
+                timeout=5  # seconds
             )
 
             json = response.json()
@@ -38,9 +39,16 @@ class HomeAssistantApi: # pylint: disable=too-few-public-methods
                 if not entity["entity_id"].startswith("sensor"):
                     continue
 
+                friendly_name = ""
+                try:
+                    friendly_name = entity["attributes"]["friendly_name"]
+                except KeyError:
+                    friendly_name = entity["entity_id"]
+                    print("No friendly name for " + entity["entity_id"])
+
                 sensor = models.HaSensor(
                     entityId=entity["entity_id"],
-                    friendlyName=entity["attributes"]["friendly_name"],
+                    friendlyName=friendly_name,
                     state=entity["state"]
                 )
                 items.append(sensor)
@@ -48,4 +56,3 @@ class HomeAssistantApi: # pylint: disable=too-few-public-methods
             print(err)
             return []
         return items
-    

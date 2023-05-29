@@ -1,6 +1,6 @@
 """Main file for the API. Contains all endpoints and the main function."""
 from json import JSONDecodeError
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from database import DatabaseConnector
 import models
@@ -53,8 +53,20 @@ async def main(request: Request):
                 friendlyName=json['friendlyName'],
                 type=json['type']
             )
-            return databaseConnector.add_sensor(sensor)
+
+            # Check if HaSensor exists
+            if databaseConnector.check_ha_sensor(sensor.haSensorId):
+                return databaseConnector.add_sensor(sensor)
+
+            raise HTTPException(
+                status_code=409, detail="Sensor with same haSensorId already exists")
         except JSONDecodeError:
             return 'Invalid JSON data.'
     else:
         return 'Content-Type not supported.'
+
+
+@app.delete("/sensors/{sensor_id}")
+def delete_sensor(sensor_id: int):
+    """Delete sensor from database."""
+    return databaseConnector.delete_sensor(sensor_id)

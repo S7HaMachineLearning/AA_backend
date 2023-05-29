@@ -47,21 +47,44 @@ class DatabaseConnector:
         try:
             # Add sensor to database
             new_id = self.execute_insert("INSERT INTO sensors (haSensorId, friendlyName," +
-                                        " type, createdOn, updatedOn)" +
-                                        " VALUES (?, ?, ?, ?, ?);",
-                                        (
-                                            sensor.haSensorId,
-                                            sensor.friendlyName,
-                                            sensor.type,
-                                            datetime.now(),
-                                            datetime.now(),
-                                        )
-                                        )
+                                         " type, createdOn, updatedOn)" +
+                                         " VALUES (?, ?, ?, ?, ?);",
+                                         (
+                                             sensor.haSensorId,
+                                             sensor.friendlyName,
+                                             sensor.type,
+                                             datetime.now(),
+                                             datetime.now(),
+                                         )
+                                         )
         except sqlite3.Error as err:
             print(err)
         return new_id
 
-    # Open local database and get data
+    def check_ha_sensor(self, ha_sensor: str) -> bool:
+        """Check for existing ha sensor"""
+        try:
+            # Get sensor from database
+            rows = self.execute_fetch_all(
+                "SELECT * FROM sensors WHERE haSensorId = \"" + ha_sensor + "\" AND deleted =0;")
+            if len(rows) == 0:
+                return True
+
+            return False
+        except sqlite3.Error as err:
+            print(err)
+            return False
+
+    def delete_sensor(self, sensor_id: int) -> bool:
+        """Delete sensor from database"""
+        try:
+            # Delete sensor from database
+            self.execute_insert("UPDATE sensors SET deleted = 1 WHERE id = ?;",
+                                (sensor_id,))
+            return True
+        except sqlite3.Error as err:
+            print(err)
+            return False
 
     def execute_fetch_all(self, query: str):
         """Execute query and return all rows."""
