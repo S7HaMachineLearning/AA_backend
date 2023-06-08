@@ -20,6 +20,7 @@ jobs:
         pip install -r requirements.txt
     - name: Analysing the code with pylint
       run: |
+        cd src
         pylint *.py 
         
   test:
@@ -39,6 +40,7 @@ jobs:
         pip install -r requirements.txt
     - name: Run unit tests
       run: |
+        cd src
         python -m unittest discover -s tests/ -p "*_test.py"
         
   audit:

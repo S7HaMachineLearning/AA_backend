@@ -7,7 +7,7 @@ import models
 from ha_api import HomeAssistantApi
 
 # Create database connector for local DB
-databaseConnector = DatabaseConnector("database.db")
+databaseConnector = DatabaseConnector("/code/database.db")
 haApi = HomeAssistantApi()
 
 app = FastAPI()
@@ -18,7 +18,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 ## API ENDPOINTS ##
 

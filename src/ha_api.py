@@ -1,4 +1,5 @@
 """ API calls to Home Assistant."""
+import os
 import configparser
 import requests
 import models
@@ -15,8 +16,8 @@ class HomeAssistantApi:  # pylint: disable=too-few-public-methods
         config.sections()
         config.read("settings.ini")
 
-        self.api_url = config["home_assistant"]["api_url"]
-        self.api_token = config["home_assistant"]["api_token"]
+        self.api_url = os.environ['api_url'] #config["home_assistant"]["api_url"]
+        self.api_token = os.environ['api_token'] #config["home_assistant"]["api_token"]
 
     def get_states(self) -> list[models.HaSensor]:
         """Get all states from Home Assistant."""
