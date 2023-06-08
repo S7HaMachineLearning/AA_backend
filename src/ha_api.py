@@ -1,5 +1,4 @@
 """ API calls to Home Assistant."""
-import os
 import configparser
 import requests
 import models

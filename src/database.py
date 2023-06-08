@@ -129,13 +129,13 @@ class DatabaseConnector:
         except sqlite3.Error as err:
             print(err)
         return new_id
-    
-    def update_automation(self, id:int, automation: models.UpdateAutomation) -> bool:
+
+    def update_automation(self, automation_id:int, automation: models.UpdateAutomation) -> bool:
         """Update automation in database"""
         try:
             # Update automation in database
             self.execute_insert("UPDATE automations SET status = ? WHERE id = ?;",
-                                (automation.status, id))
+                                (automation.status, automation_id))
             return True
         except sqlite3.Error as err:
             print(err)

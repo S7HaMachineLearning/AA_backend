@@ -97,7 +97,6 @@ async def post_automation(request: Request):
 
             # Check if HaSensor exists
             return databaseConnector.add_automation(automation)
-           
 
         except JSONDecodeError:
             return 'Invalid JSON data.'
@@ -117,14 +116,14 @@ async def patch_automation_status(request: Request, automation_id: int):
 
             #Parse to NewAutomation
             update = models.UpdateAutomation(
-                status=json['status']    
+                status=json['status']
             )
 
             # Check if HaSensor exists
             return databaseConnector.update_automation(automation_id,update)
-           
 
         except JSONDecodeError:
             return 'Invalid JSON data.'
     else:
         return 'Content-Type not supported.'
+    
