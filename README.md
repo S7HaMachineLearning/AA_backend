@@ -97,8 +97,8 @@ CREATE TABLE "feedback" (
 	"id"	INTEGER,
 	"automationId"	INTEGER NOT NULL,
 	"type"	INTEGER,
-	"createdOn"	INTEGER,
-	"updatedOn"	INTEGER,
+	"createdOn"	TEXT,
+	"updatedOn"	TEXT,
 	"deleted"	INTEGER DEFAULT 0,
 	PRIMARY KEY("id" AUTOINCREMENT)
 );

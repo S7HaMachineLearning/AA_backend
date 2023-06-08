@@ -10,6 +10,14 @@ class SensorType(Enum):  # pylint: disable=too-few-public-methods
     HUMIDITY = 2
 
 
+class FeedbackType(Enum):  # pylint: disable=too-few-public-methods
+    """Enum for feedback types."""
+    NEW = 0
+    ACCEPTED = 1
+    DECLINED_GOOD = 2
+    DECLINED_BAD = 3
+
+
 class Sensor(BaseModel):  # pylint: disable=too-few-public-methods
     """Sensor model."""
     id: int
@@ -27,8 +35,28 @@ class NewSensor(BaseModel):  # pylint: disable=too-few-public-methods
     haSensorId: str
     type: int
 
+
 class HaSensor(BaseModel):  # pylint: disable=too-few-public-methods
     """Home assistant sensor model."""
     entityId: str
     friendlyName: str
     state: str
+
+
+class Automation(BaseModel):  # pylint: disable=too-few-public-methods
+    """Automation model."""
+    id: int
+    value: str
+    status: FeedbackType
+    createdOn: str
+    updatedOn: str
+    deleted: int
+
+
+class NewAutomation(BaseModel):  # pylint: disable=too-few-public-methods
+    """New automation model."""
+    value: str
+
+class UpdateAutomation(BaseModel):  # pylint: disable=too-few-public-methods
+    """Update automation model."""
+    status: int

@@ -7,7 +7,7 @@ import models
 from ha_api import HomeAssistantApi
 
 # Create database connector for local DB
-databaseConnector = DatabaseConnector("/code/database.db")
+databaseConnector = DatabaseConnector("database.db")
 haApi = HomeAssistantApi()
 
 app = FastAPI()
@@ -20,6 +20,7 @@ app.add_middleware(
 )
 
 ## API ENDPOINTS ##
+
 
 @app.get("/sensors", response_model=list[models.Sensor])
 def get_sensors() -> list[models.Sensor]:
@@ -37,7 +38,7 @@ def get_ha_sensors() -> list[models.HaSensor]:
 
 
 @app.post("/sensors")
-async def main(request: Request):
+async def post_sensor(request: Request):
     """Add sensor to database."""
     content_type = request.headers.get('Content-Type')
     if content_type is None:
@@ -69,3 +70,61 @@ async def main(request: Request):
 def delete_sensor(sensor_id: int):
     """Delete sensor from database."""
     return databaseConnector.delete_sensor(sensor_id)
+
+
+@app.get("/automations", response_model=list[models.Automation])
+def get_automations() -> list[models.Automation]:
+    """Get list of all automation's from database."""
+    objects = databaseConnector.get_automations()
+    return objects
+
+
+@app.post("/automations")
+async def post_automation(request: Request):
+    """Add automation to database."""
+    content_type = request.headers.get('Content-Type')
+    if content_type is None:
+        return 'No Content-Type provided.'
+
+    if content_type == 'application/json':
+        try:
+            json = await request.json()
+
+            #Parse to NewAutomation
+            automation = models.NewAutomation(
+                value=json['value']
+            )
+
+            # Check if HaSensor exists
+            return databaseConnector.add_automation(automation)
+           
+
+        except JSONDecodeError:
+            return 'Invalid JSON data.'
+    else:
+        return 'Content-Type not supported.'
+
+@app.patch("/automations/{automation_id}")
+async def patch_automation_status(request: Request, automation_id: int):
+    """Update automation in database."""
+    content_type = request.headers.get('Content-Type')
+    if content_type is None:
+        return 'No Content-Type provided.'
+
+    if content_type == 'application/json':
+        try:
+            json = await request.json()
+
+            #Parse to NewAutomation
+            update = models.UpdateAutomation(
+                status=json['status']    
+            )
+
+            # Check if HaSensor exists
+            return databaseConnector.update_automation(automation_id,update)
+           
+
+        except JSONDecodeError:
+            return 'Invalid JSON data.'
+    else:
+        return 'Content-Type not supported.'

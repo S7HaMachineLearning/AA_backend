@@ -33,7 +33,6 @@ class DatabaseConnector:
                     deleted=row[5],
                     friendlyName=row[6]
                 )
-                print(sensor)
                 ret.append(sensor)
 
             return ret
@@ -81,6 +80,62 @@ class DatabaseConnector:
             # Delete sensor from database
             self.execute_insert("UPDATE sensors SET deleted = 1 WHERE id = ?;",
                                 (sensor_id,))
+            return True
+        except sqlite3.Error as err:
+            print(err)
+            return False
+
+    def get_automations(self) -> list[models.Automation]:
+        """Get list of all automation's from database."""
+        try:
+            # Get all sensors
+            rows = self.execute_fetch_all(
+                "SELECT * FROM automations WHERE deleted = 0")
+
+            # Create return list
+            ret = []
+            for row in rows:
+                print(row)
+                automation = models.Automation(
+                    id=row[0],
+                    value=row[1],
+                    status=row[2],
+                    createdOn=row[3],
+                    updatedOn=row[4],
+                    deleted=row[5]
+                )
+                ret.append(automation)
+
+            return ret
+        except sqlite3.Error as err:
+            print(err)
+            return []
+
+    def add_automation(self, automation: models.NewAutomation) -> int:
+        """Add automation to database"""
+        new_id = 0
+        try:
+            # Add automation to database
+            new_id = self.execute_insert("INSERT INTO automations (value, status," +
+                                         " createdOn, updatedOn)" +
+                                         " VALUES (?, ?, ?);",
+                                         (
+                                             automation.value,
+                                             0,
+                                             datetime.now(),
+                                             datetime.now(),
+                                         )
+                                         )
+        except sqlite3.Error as err:
+            print(err)
+        return new_id
+    
+    def update_automation(self, id:int, automation: models.UpdateAutomation) -> bool:
+        """Update automation in database"""
+        try:
+            # Update automation in database
+            self.execute_insert("UPDATE automations SET status = ? WHERE id = ?;",
+                                (automation.status, id))
             return True
         except sqlite3.Error as err:
             print(err)
