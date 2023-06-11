@@ -1,5 +1,5 @@
 """ API calls to Home Assistant."""
-import os
+import os # pylint: disable=unused-import
 import configparser
 import requests
 import models
