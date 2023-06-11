@@ -23,7 +23,6 @@ class DatabaseConnector:
             # Create return list
             ret = []
             for row in rows:
-                print(row)
                 sensor = models.Sensor(
                     id=row[0],
                     haSensorId=row[1],
@@ -95,7 +94,6 @@ class DatabaseConnector:
             # Create return list
             ret = []
             for row in rows:
-                print(row)
                 automation = models.Automation(
                     id=row[0],
                     value=row[1],
