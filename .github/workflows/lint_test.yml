@@ -2,6 +2,10 @@ name: Pylint & Unittest
 
 on: [push]
 
+env:
+  api_url: ""
+  api_token: ""
+
 jobs:
   lint:
     runs-on: ubuntu-latest
